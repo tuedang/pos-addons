@@ -34,7 +34,7 @@
     "post_init_hook": None,
 
     "auto_install": True,
-    "installable": False,
+    "installable": True,
 
     "demo_title": "Sync restaurant orders",
     "demo_addons": [

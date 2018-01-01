@@ -9,7 +9,8 @@ odoo.define('pos_multi_session', function(require){
     var bus = require('bus.bus');
     var chrome = require('point_of_sale.chrome');
     var longpolling = require('pos_longpolling');
-    var Model = require('web.Model');
+    var session = require('web.session');
+    var rpc = require('web.rpc');
     var PosBaseWidget = require('point_of_sale.BaseWidget');
     var gui = require('point_of_sale.gui');
 
@@ -282,7 +283,7 @@ odoo.define('pos_multi_session', function(require){
             var fields = _.find(this.models,function(model){
                 return model.model === 'res.partner';
             }).fields;
-            new Model('res.partner').
+            rpc.
                 query(fields).
                 filter([['id','=',partner_id]]).
                 all({'timeout':3000, 'shadow': true}).
@@ -635,7 +636,7 @@ odoo.define('pos_multi_session', function(require){
                 var temp = address
                 ? address.serv
                 : self.pos.config.sync_server || '';
-                return openerp.session.rpc(temp + "/pos_multi_session_sync/update", {
+                return session.rpc(temp + "/pos_multi_session_sync/update", {
                     multi_session_id: self.pos.config.multi_session_id[0],
                     message: message,
                     dbname: session.db,
